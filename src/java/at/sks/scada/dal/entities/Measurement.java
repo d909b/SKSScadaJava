@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Measurement.findByTime", query = "SELECT m FROM Measurement m WHERE m.time = :time"),
     @NamedQuery(name = "Measurement.findBySiteID", query = "SELECT m FROM Measurement m WHERE m.siteID = :siteID"),
     @NamedQuery(name = "Measurement.findByMeasurementTypeID", query = "SELECT m FROM Measurement m WHERE m.measurementTypeID = :measurementTypeID")})
-public class Measurement implements Serializable {
+public class Measurement extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

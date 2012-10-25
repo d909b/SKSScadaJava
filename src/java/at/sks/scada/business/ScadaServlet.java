@@ -5,6 +5,8 @@
 package at.sks.scada.business;
 
 import at.sks.scada.dal.entities.Customer;
+import at.sks.scada.dal.entities.Site;
+import at.sks.scada.dal.entities.repositories.SiteDbRepository;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -54,6 +56,17 @@ public class ScadaServlet extends HttpServlet {
                 out.println("<li>" + c.getCustomerID() + "</li>");
             }
             out.println("</ul>");
+            
+            //test this with db connection
+            SiteDbRepository dao = new SiteDbRepository();
+            Site site = new Site();
+            site.setCustomerID(1);
+            site.setDescription("desc");
+            site.setLatitude(10);
+            site.setLongitude(1);
+            site.setSerialnumber("AOS1230");
+            dao.add(site);
+            dao.commitChanges();
             
             out.println("</body>");
             out.println("</html>");

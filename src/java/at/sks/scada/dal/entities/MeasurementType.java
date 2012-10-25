@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MeasurementType.findByMinimum", query = "SELECT m FROM MeasurementType m WHERE m.minimum = :minimum"),
     @NamedQuery(name = "MeasurementType.findByMaximum", query = "SELECT m FROM MeasurementType m WHERE m.maximum = :maximum"),
     @NamedQuery(name = "MeasurementType.findByUnit", query = "SELECT m FROM MeasurementType m WHERE m.unit = :unit")})
-public class MeasurementType implements Serializable {
+public class MeasurementType extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

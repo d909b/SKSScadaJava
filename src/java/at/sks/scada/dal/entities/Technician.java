@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Technician.findAll", query = "SELECT t FROM Technician t"),
     @NamedQuery(name = "Technician.findByTechnicianID", query = "SELECT t FROM Technician t WHERE t.technicianID = :technicianID"),
     @NamedQuery(name = "Technician.findByPersonID", query = "SELECT t FROM Technician t WHERE t.personID = :personID")})
-public class Technician implements Serializable {
+public class Technician extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

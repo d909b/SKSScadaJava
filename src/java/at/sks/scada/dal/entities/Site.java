@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Site.findByDescription", query = "SELECT s FROM Site s WHERE s.description = :description"),
     @NamedQuery(name = "Site.findByCustomerID", query = "SELECT s FROM Site s WHERE s.customerID = :customerID"),
     @NamedQuery(name = "Site.findBySiteID", query = "SELECT s FROM Site s WHERE s.siteID = :siteID")})
-public class Site implements Serializable {
+public class Site extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @NotNull
