@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package at.sks.scada.dal.entities.repositories;
+package at.sks.scada.dal.repositories;
 
 /**
  *
@@ -11,7 +11,7 @@ package at.sks.scada.dal.entities.repositories;
 public interface RepositoryInterface<T> {
     public void add(T obj);
     public void update(T obj);
-    public void delete(T obj);
+    public void delete(String id);
     public void commitChanges();
     public T get(String id);
 }

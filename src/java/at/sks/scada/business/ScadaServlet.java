@@ -4,15 +4,11 @@
  */
 package at.sks.scada.business;
 
-import at.sks.scada.dal.entities.Customer;
-import at.sks.scada.dal.entities.Site;
-import at.sks.scada.dal.entities.repositories.SiteDbRepository;
+import at.sks.scada.dal.entities.MeasurementType;
+import at.sks.scada.dal.repositories.RepositoryInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,9 +20,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ScadaServlet", urlPatterns = {"/ScadaServlet"})
 public class ScadaServlet extends HttpServlet {
-    @PersistenceContext
-    EntityManager em;
-    
+    @EJB(beanName="MeasurementTypeDbRepo")
+     private RepositoryInterface<MeasurementType> measurementTypeRepo;
+    @EJB(beanName="MeasurementDbRepo")
+     private RepositoryInterface<MeasurementType> measurementRepo;
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -39,8 +36,10 @@ public class ScadaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        
         try {
             out.println("<html>");
             out.println("<head>");
@@ -49,24 +48,19 @@ public class ScadaServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet ScadaServlet at " + request.getContextPath() + "</h1>");
             
-            out.println("<ul>");
-            Query q = em.createNamedQuery("Person.findAll");
-            
-            for(Customer c : (List<Customer>)q.getResultList()) {
-                out.println("<li>" + c.getCustomerID() + "</li>");
+            if(measurementTypeRepo.get("1") != null) {
+                MeasurementType mt = measurementTypeRepo.get("1");
+                out.println("<div>" + mt.getUnit()+ "</div>");
             }
-            out.println("</ul>");
             
-            //test this with db connection
-            SiteDbRepository dao = new SiteDbRepository();
-            Site site = new Site();
-            site.setCustomerID(1);
-            site.setDescription("desc");
-            site.setLatitude(10);
-            site.setLongitude(1);
-            site.setSerialnumber("AOS1230");
-            dao.add(site);
-            dao.commitChanges();
+            MeasurementType mt = new MeasurementType();
+            mt.setMaximum(123);
+            mt.setMeasurementTypeID(4);
+            mt.setMinimum(1);
+            mt.setUnit("ST");
+            measurementTypeRepo.add(mt);
+            measurementTypeRepo.commitChanges();
+            measurementTypeRepo.delete(mt.getMeasurementTypeID().toString());
             
             out.println("</body>");
             out.println("</html>");
