@@ -8,6 +8,7 @@ import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
 import java.util.List;
+import java.util.logging.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -15,12 +16,14 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * @author patrick
  */
 public class SiteService {
-    public Measurement getLatestSiteState(Site site)
+    private static final Logger log = Logger.getLogger(SiteService.class.getName());
+    
+    public Measurement getLatestSiteState(Site site) throws BusinessLayerException
     {
         throw new NotImplementedException();
     }
  
-    public List<Site> getSites(Customer customer)
+    public List<Site> getSites(Customer customer) throws BusinessLayerException
     {
         throw new NotImplementedException();
     }
