@@ -4,6 +4,7 @@
  */
 package at.sks.scada.dal.repositories;
 
+import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Technician;
 import javax.ejb.Stateless;
 
@@ -14,8 +15,12 @@ import javax.ejb.Stateless;
 @Stateless(name="TechnicianDbRepo")
 public class TechnicianDbRepository extends AbstractDbRepository<Technician> implements RepositoryInterface<Technician> {
     
-     @Override
-    public Technician get(String id) throws IllegalStateException, IllegalArgumentException {
-        return em.find(Technician.class,Integer.parseInt(id));
+    @Override
+    public Technician get(String id) throws DataAccessLayerException {
+        try {
+            return em.find(Technician.class,Integer.parseInt(id));
+        } catch(Exception ex) {
+            throw new DataAccessLayerException(ex);
+        }
     }
 }

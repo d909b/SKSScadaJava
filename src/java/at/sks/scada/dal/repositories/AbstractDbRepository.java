@@ -4,12 +4,10 @@
  */
 package at.sks.scada.dal.repositories;
 
+import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.AbstractEntity;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.TransactionRequiredException;
 
 /**
  *
@@ -24,27 +22,39 @@ public abstract class AbstractDbRepository<T extends AbstractEntity> implements 
     }
     
     @Override
-    public void add(T obj) throws EntityExistsException, IllegalStateException, IllegalArgumentException, TransactionRequiredException {
-        em.persist(obj);
+    public void add(T obj) throws DataAccessLayerException {
+        try {
+            em.persist(obj);
+        } catch(Exception ex) {
+            throw new DataAccessLayerException(ex);
+        }
     }
 
     @Override
-    public void update(T obj) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void update(T obj) throws DataAccessLayerException {
+        throw new DataAccessLayerException(new UnsupportedOperationException("Not supported yet."));
     }
 
     @Override
-    public void delete(String id) throws IllegalStateException, IllegalArgumentException, TransactionRequiredException{
-        em.remove(get(id));
+    public void delete(String id) throws DataAccessLayerException {
+        try {
+            em.remove(get(id));
+        } catch(Exception ex) {
+            throw new DataAccessLayerException(ex);
+        }
     }
 
     @Override
-    public void commitChanges() throws IllegalStateException, TransactionRequiredException, PersistenceException{
-        em.flush();
+    public void commitChanges() throws DataAccessLayerException {
+        try {
+            em.flush();
+        } catch(Exception ex) {
+            throw new DataAccessLayerException(ex);
+        }  
     }
 
     @Override
-    public T get(String id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public T get(String id) throws DataAccessLayerException {
+        throw new DataAccessLayerException(new UnsupportedOperationException("Not supported yet."));
     }
 }
