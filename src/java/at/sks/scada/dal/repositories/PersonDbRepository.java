@@ -14,8 +14,7 @@ import javax.ejb.Stateless;
  */
 @Stateless(name="PersonDbRepo")
 public class PersonDbRepository extends AbstractDbRepository<Person> implements RepositoryInterface<Person> {
-    
-     @Override
+    @Override
     public Person get(String id) throws DataAccessLayerException {
         try {
             return em.find(Person.class,Integer.parseInt(id));

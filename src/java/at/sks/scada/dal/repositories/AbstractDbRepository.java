@@ -6,8 +6,10 @@ package at.sks.scada.dal.repositories;
 
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.AbstractEntity;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -56,5 +58,15 @@ public abstract class AbstractDbRepository<T extends AbstractEntity> implements 
     @Override
     public T get(String id) throws DataAccessLayerException {
         throw new DataAccessLayerException(new UnsupportedOperationException("Not supported yet."));
+    }
+    
+    @Override
+    public List<T> findByNamedQuery(String queryName) throws DataAccessLayerException
+    {
+        try {
+            return this.em.createNamedQuery(queryName).getResultList();
+        } catch(Exception ex) {
+            throw new DataAccessLayerException(ex);
+        }
     }
 }
