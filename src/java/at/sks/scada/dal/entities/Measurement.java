@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Measurement.findByWert", query = "SELECT m FROM Measurement m WHERE m.wert = :wert"),
     @NamedQuery(name = "Measurement.findByTime", query = "SELECT m FROM Measurement m WHERE m.time = :time"),
     @NamedQuery(name = "Measurement.findBySiteID", query = "SELECT m FROM Measurement m WHERE m.siteID = :siteID"),
+    @NamedQuery(name = "Measurement.findLatestBySiteID", query = "SELECT m FROM Measurement m WHERE m.siteID = :siteID AND m.time = (SELECT max(m2.time) FROM Measurement m2 WHERE m2.siteID = :siteID)"),
     @NamedQuery(name = "Measurement.findByMeasurementTypeID", query = "SELECT m FROM Measurement m WHERE m.measurementTypeID = :measurementTypeID")})
 public class Measurement extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;

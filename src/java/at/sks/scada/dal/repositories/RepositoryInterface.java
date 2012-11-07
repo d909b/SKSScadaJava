@@ -6,6 +6,7 @@ package at.sks.scada.dal.repositories;
 
 import at.sks.scada.dal.DataAccessLayerException;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -18,4 +19,6 @@ public interface RepositoryInterface<T> {
     public void commitChanges() throws DataAccessLayerException;
     public T get(String id) throws DataAccessLayerException;
     public List<T> findByNamedQuery(String queryName) throws DataAccessLayerException;
+    public List<T> findByNamedQueryWithParameters(String queryName, 
+        Map<String, Object> parameters) throws DataAccessLayerException;
 }

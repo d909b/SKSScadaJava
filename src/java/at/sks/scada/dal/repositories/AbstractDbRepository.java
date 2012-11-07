@@ -7,6 +7,7 @@ package at.sks.scada.dal.repositories;
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.AbstractEntity;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -65,6 +66,26 @@ public abstract class AbstractDbRepository<T extends AbstractEntity> implements 
     {
         try {
             return this.em.createNamedQuery(queryName).getResultList();
+        } catch(Exception ex) {
+            throw new DataAccessLayerException(ex);
+        }
+    }
+    
+    @Override
+    public List<T> findByNamedQueryWithParameters(String queryName, 
+        Map<String, Object> parameters) throws DataAccessLayerException
+    {
+        try {
+            Query query = this.em.createNamedQuery(queryName);
+            
+            for(Map.Entry<String, Object> entry : parameters.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                
+                query.setParameter(key, value);
+            }
+            
+            return query.getResultList();
         } catch(Exception ex) {
             throw new DataAccessLayerException(ex);
         }
