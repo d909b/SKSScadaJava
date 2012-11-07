@@ -4,13 +4,14 @@
  */
 package at.sks.scada.business;
 
+import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -24,6 +25,11 @@ public class CustomerService {
     
     public List<Customer> getCustomers(Technician technician) throws BusinessLayerException
     {
-        throw new NotImplementedException();
+        try {
+            return customerRepository.findByNamedQuery("Customer.resolveTechnicians");
+        } catch (DataAccessLayerException ex) {
+            log.log(Level.SEVERE, ex.getMessage(), ex);
+            throw new BusinessLayerException(ex);
+        }
     }
 }

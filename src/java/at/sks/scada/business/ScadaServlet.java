@@ -4,10 +4,13 @@
  */
 package at.sks.scada.business;
 
+import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.MeasurementType;
 import at.sks.scada.dal.repositories.RepositoryInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +27,8 @@ public class ScadaServlet extends HttpServlet {
      private RepositoryInterface<MeasurementType> measurementTypeRepo;
     @EJB(beanName="MeasurementDbRepo")
      private RepositoryInterface<MeasurementType> measurementRepo;
+    
+    private static final Logger log = Logger.getLogger(ScadaServlet.class.getName());
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -64,6 +69,8 @@ public class ScadaServlet extends HttpServlet {
             
             out.println("</body>");
             out.println("</html>");
+        } catch(DataAccessLayerException ex) {
+            log.log(Level.SEVERE, ex.getMessage(), ex);
         } finally {            
             out.close();
         }
