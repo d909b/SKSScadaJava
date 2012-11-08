@@ -8,16 +8,13 @@ import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
-import at.sks.scada.dal.repositories.MeasurementDbRepository;
 import at.sks.scada.dal.repositories.RepositoryInterface;
-import at.sks.scada.dal.repositories.SiteDbRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import javax.ejb.EJB;
 
 /**
  *
@@ -26,12 +23,14 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class SiteService {
     private static final Logger log = Logger.getLogger(SiteService.class.getName());
      
-    @Inject
     private RepositoryInterface<Site> siteRepository;
     
-    @Inject
+   @EJB(beanName = "MeasurementDbRepo")
     private RepositoryInterface<Measurement> measurementRepository;
-    
+
+   public SiteService(RepositoryInterface<Site> siteRepo) {
+       this.siteRepository = siteRepo;
+   }
     public Measurement getLatestSiteState(Site site) throws BusinessLayerException
     {
         log.entering("SiteService", "getLatestSiteState");
@@ -56,6 +55,22 @@ public class SiteService {
  
     public List<Site> getSites(Customer customer) throws BusinessLayerException
     {
-        throw new NotImplementedException();
+         log.entering("SiteService", "getSites");
+        try {
+            Map<String,Object> parameters = new HashMap<String, Object>();
+            
+            parameters.put("customerID", customer.getCustomerID());
+            
+            List<Site> result = siteRepository.findByNamedQueryWithParameters("Site.findByCustomerID", parameters);
+            
+            if(result.isEmpty()) {
+                throw new BusinessLayerException("No sites available for customer with id " + customer.getCustomerID());
+            }
+            
+            return result;
+        } catch (DataAccessLayerException ex) {
+            log.log(Level.SEVERE, ex.getMessage(), ex);
+            throw new BusinessLayerException(ex);
+        }
     }
 }

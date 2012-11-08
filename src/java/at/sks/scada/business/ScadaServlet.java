@@ -4,11 +4,14 @@
  */
 package at.sks.scada.business;
 
-import at.sks.scada.dal.DataAccessLayerException;
-import at.sks.scada.dal.entities.MeasurementType;
+import at.sks.scada.dal.entities.Customer;
+import at.sks.scada.dal.entities.Site;
+import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -23,10 +26,13 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ScadaServlet", urlPatterns = {"/ScadaServlet"})
 public class ScadaServlet extends HttpServlet {
-    @EJB(beanName="MeasurementTypeDbRepo")
-     private RepositoryInterface<MeasurementType> measurementTypeRepo;
-    @EJB(beanName="MeasurementDbRepo")
-     private RepositoryInterface<MeasurementType> measurementRepo;
+    //TODO: this ejb does not work in CustomerService class... WHY?
+    @EJB(beanName = "CustomerDbRepo")
+    private RepositoryInterface<Customer> customerRepository;
+    @EJB(beanName = "TechnicianDbRepo")
+    private RepositoryInterface<Technician> technicianRepo;
+    @EJB(beanName = "SiteDbRepo")
+    private RepositoryInterface<Site> siteRepo;
     
     private static final Logger log = Logger.getLogger(ScadaServlet.class.getName());
     /**
@@ -53,24 +59,34 @@ public class ScadaServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet ScadaServlet at " + request.getContextPath() + "</h1>");
             
-            if(measurementTypeRepo.get("1") != null) {
-                MeasurementType mt = measurementTypeRepo.get("1");
-                out.println("<div>" + mt.getUnit()+ "</div>");
+            List<Customer> customersForTechnician = new ArrayList<Customer>();
+            List<Site> sitesForCustomer = new ArrayList<Site>();
+            CustomerService cs = new CustomerService(customerRepository);
+            SiteService ss = new SiteService(siteRepo);
+            TechnicianService ts = new TechnicianService(technicianRepo);
+            
+            String technicianID = "1";
+            String customerID = "1";
+            try {
+                customersForTechnician = cs.getCustomers(ts.getTechnician(technicianID));
+                sitesForCustomer = ss.getSites(cs.getCustomer(customerID));
+            } catch(BusinessLayerException e) {
+                log.log(Level.SEVERE, e.getMessage(), e);
             }
             
-            MeasurementType mt = new MeasurementType();
-            mt.setMaximum(123);
-            mt.setMeasurementTypeID(4);
-            mt.setMinimum(1);
-            mt.setUnit("ST");
-            measurementTypeRepo.add(mt);
-            measurementTypeRepo.commitChanges();
-            measurementTypeRepo.delete(mt.getMeasurementTypeID().toString());
+            out.println("List of customers for technician with id: " + technicianID);
+            for(Customer c : customersForTechnician) {
+                out.println("<div> " + c.toString() + "</div>");
+            }
+            out.println("<br>");
+            
+            out.println("Customer Statistic for Customer with id: " + customerID);
+            for(Site s : sitesForCustomer) {
+                out.println("<div> " + s.toString() + "</div>");
+            }
             
             out.println("</body>");
             out.println("</html>");
-        } catch(DataAccessLayerException ex) {
-            log.log(Level.SEVERE, ex.getMessage(), ex);
         } finally {            
             out.close();
         }

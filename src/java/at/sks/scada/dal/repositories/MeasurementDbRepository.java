@@ -5,7 +5,11 @@
 package at.sks.scada.dal.repositories;
 
 import at.sks.scada.dal.DataAccessLayerException;
+import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 
 /**

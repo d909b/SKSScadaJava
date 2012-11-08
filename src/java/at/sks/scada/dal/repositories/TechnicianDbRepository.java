@@ -18,7 +18,7 @@ public class TechnicianDbRepository extends AbstractDbRepository<Technician> imp
     @Override
     public Technician get(String id) throws DataAccessLayerException {
         try {
-            return em.find(Technician.class,Integer.parseInt(id));
+            return em.find(Technician.class,Long.parseLong(id));
         } catch(Exception ex) {
             throw new DataAccessLayerException(ex);
         }

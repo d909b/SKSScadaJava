@@ -4,8 +4,11 @@
  */
 package at.sks.scada.business;
 
+import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Technician;
+import at.sks.scada.dal.repositories.RepositoryInterface;
 import java.util.List;
+import javax.ejb.EJB;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -18,6 +21,9 @@ import org.junit.Test;
  * @author patrick
  */
 public class CustomerServiceTest {
+    
+    @EJB(beanName = "CustomerDbRepo")
+    private RepositoryInterface<Customer> customerRepository;
     
     public CustomerServiceTest() {
     }
@@ -46,7 +52,7 @@ public class CustomerServiceTest {
         /** TODO: Implement with MockRepository... DI needs to be fixed first. */
         System.out.println("getCustomers");
         Technician technician = null;
-        CustomerService instance = new CustomerService();
+        CustomerService instance = new CustomerService(customerRepository);
         List expResult = null;
         List result = instance.getCustomers(technician);
         assertEquals(expResult, result);
