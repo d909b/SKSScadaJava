@@ -15,10 +15,10 @@ import java.util.Map;
 public interface RepositoryInterface<T> {
     public void add(T obj) throws DataAccessLayerException;
     public void update(T obj) throws DataAccessLayerException;
-    public void delete(String id) throws DataAccessLayerException;
+    public void delete(T obj) throws DataAccessLayerException;
     public void commitChanges() throws DataAccessLayerException;
-    public T get(String id) throws DataAccessLayerException;
     public List<T> findByNamedQuery(String queryName) throws DataAccessLayerException;
     public List<T> findByNamedQueryWithParameters(String queryName, 
         Map<String, Object> parameters) throws DataAccessLayerException;
+    public T get(String id) throws DataAccessLayerException;
 }

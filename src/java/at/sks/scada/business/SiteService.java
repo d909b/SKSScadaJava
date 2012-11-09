@@ -24,12 +24,11 @@ public class SiteService {
     private static final Logger log = Logger.getLogger(SiteService.class.getName());
      
     private RepositoryInterface<Site> siteRepository;
-    
-   @EJB(beanName = "MeasurementDbRepo")
     private RepositoryInterface<Measurement> measurementRepository;
 
-   public SiteService(RepositoryInterface<Site> siteRepo) {
+   public SiteService(RepositoryInterface<Site> siteRepo, RepositoryInterface<Measurement> measurementRepo) {
        this.siteRepository = siteRepo;
+       this.measurementRepository = measurementRepo;
    }
     public Measurement getLatestSiteState(Site site) throws BusinessLayerException
     {

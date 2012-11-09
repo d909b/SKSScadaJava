@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -39,9 +40,9 @@ public abstract class AbstractDbRepository<T extends AbstractEntity> implements 
     }
 
     @Override
-    public void delete(String id) throws DataAccessLayerException {
+    public void delete(T obj) throws DataAccessLayerException {
         try {
-            em.remove(get(id));
+            em.remove(obj);
         } catch(Exception ex) {
             throw new DataAccessLayerException(ex);
         }
@@ -55,10 +56,10 @@ public abstract class AbstractDbRepository<T extends AbstractEntity> implements 
             throw new DataAccessLayerException(ex);
         }  
     }
-
+    
     @Override
     public T get(String id) throws DataAccessLayerException {
-        throw new DataAccessLayerException(new UnsupportedOperationException("Not supported yet."));
+       throw new NotImplementedException();
     }
     
     @Override

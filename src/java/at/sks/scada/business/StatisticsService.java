@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 
 /**
  *
@@ -23,8 +22,11 @@ public class StatisticsService {
     private static final Logger log = Logger.getLogger(StatisticsService.class.getName());
     private SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
-    @EJB(beanName = "MeasurementDbRepo")
     private RepositoryInterface<Measurement> measurementRepository;
+    
+    public StatisticsService(RepositoryInterface<Measurement> measurementRepo) {
+        this.measurementRepository = measurementRepo;
+    }
     
     public List<Measurement> getCustomerStatistics(Customer customer,
             Date startDate, Date endDate) throws BusinessLayerException

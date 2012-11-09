@@ -7,6 +7,7 @@ package at.sks.scada.business;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
+import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
 import java.util.List;
 import javax.ejb.EJB;
@@ -23,8 +24,14 @@ import org.junit.Test;
  */
 public class SiteServiceTest {
     
+    @EJB(beanName = "CustomerDbRepo")
+    private RepositoryInterface<Customer> customerRepository;
+    @EJB(beanName = "TechnicianDbRepo")
+    private RepositoryInterface<Technician> technicianRepo;
     @EJB(beanName = "SiteDbRepo")
     private RepositoryInterface<Site> siteRepo;
+    @EJB(beanName = "MeasurementDbRepo")
+    private RepositoryInterface<Measurement> measurementRepo;
     public SiteServiceTest() {
     }
     
@@ -51,7 +58,7 @@ public class SiteServiceTest {
     public void testGetLatestSiteState() throws Exception {
         System.out.println("getLatestSiteState");
         Site site = null;
-        SiteService instance = new SiteService(siteRepo);
+        SiteService instance = new SiteService(siteRepo, measurementRepo);
         Measurement expResult = null;
         Measurement result = instance.getLatestSiteState(site);
         assertEquals(expResult, result);
@@ -66,7 +73,7 @@ public class SiteServiceTest {
     public void testGetSites() throws Exception {
         System.out.println("getSites");
         Customer customer = null;
-        SiteService instance = new SiteService(siteRepo);
+        SiteService instance = new SiteService(siteRepo, measurementRepo);
         List expResult = null;
         List result = instance.getSites(customer);
         assertEquals(expResult, result);

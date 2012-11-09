@@ -5,6 +5,7 @@
 package at.sks.scada.business;
 
 import at.sks.scada.dal.entities.Customer;
+import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
 import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
@@ -26,15 +27,17 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ScadaServlet", urlPatterns = {"/ScadaServlet"})
 public class ScadaServlet extends HttpServlet {
-    //TODO: this ejb does not work in CustomerService class... WHY?
     @EJB(beanName = "CustomerDbRepo")
     private RepositoryInterface<Customer> customerRepository;
     @EJB(beanName = "TechnicianDbRepo")
     private RepositoryInterface<Technician> technicianRepo;
     @EJB(beanName = "SiteDbRepo")
     private RepositoryInterface<Site> siteRepo;
+    @EJB(beanName = "MeasurementDbRepo")
+    private RepositoryInterface<Measurement> measurementRepo;
     
     private static final Logger log = Logger.getLogger(ScadaServlet.class.getName());
+
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -62,9 +65,10 @@ public class ScadaServlet extends HttpServlet {
             List<Customer> customersForTechnician = new ArrayList<Customer>();
             List<Site> sitesForCustomer = new ArrayList<Site>();
             CustomerService cs = new CustomerService(customerRepository);
-            SiteService ss = new SiteService(siteRepo);
+            SiteService ss = new SiteService(siteRepo, measurementRepo);
             TechnicianService ts = new TechnicianService(technicianRepo);
-            
+            StatisticsService statS = new StatisticsService(measurementRepo); 
+
             String technicianID = "1";
             String customerID = "1";
             try {

@@ -20,6 +20,10 @@ public class TechnicianService {
     
     private RepositoryInterface<Technician> technicianRepository;
     
+    /**
+     *  Constructor expects TechnicianDbRepository
+     * @param techRepo
+     */
     public TechnicianService(RepositoryInterface<Technician> techRepo) {
         this.technicianRepository = techRepo;
     }
