@@ -8,9 +8,12 @@ import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.repositories.RepositoryInterface;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,21 +31,19 @@ public class StatisticsService {
         this.measurementRepository = measurementRepo;
     }
     
+    //not working with timerange. returns all statistics for the site
     public List<Measurement> getCustomerStatistics(Customer customer,
             Date startDate, Date endDate) throws BusinessLayerException
     {
        log.entering("StatisticsService", "getCustomerStatistics");
         try {
-            String start = sdf.format(startDate);
-            String end = sdf.format(endDate);
+            Map<String,Object> parameters = new HashMap<String, Object>();
             
-            //not sql injection save
-            List<Measurement> result = 
-                    measurementRepository.findByNamedQuery("from Measurement"
-                                                                + " where customerID = " + customer.getCustomerID()
-                                                                + " and time > " + start
-                                                                + " and time < " + end
-                                                                + "order by time");
+            parameters.put("customerID", customer.getCustomerID());
+            //parameters.put("startTime", startDate);
+            //parameters.put("endTime", endDate);
+            
+            List<Measurement> result =  measurementRepository.findByNamedQueryWithParameters("Measurement.findByCustomerAndByTimerange", parameters);
             if(result.isEmpty()) {
                 throw new BusinessLayerException("No statistic available for customer with id " + customer.getCustomerID());
             }

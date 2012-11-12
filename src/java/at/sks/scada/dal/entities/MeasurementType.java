@@ -35,7 +35,7 @@ public class MeasurementType extends AbstractEntity implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "MeasurementTypeID")
-    private Integer measurementTypeID;
+    private Long measurementTypeID;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Minimum")
@@ -53,22 +53,22 @@ public class MeasurementType extends AbstractEntity implements Serializable {
     public MeasurementType() {
     }
 
-    public MeasurementType(Integer measurementTypeID) {
+    public MeasurementType(Long measurementTypeID) {
         this.measurementTypeID = measurementTypeID;
     }
 
-    public MeasurementType(Integer measurementTypeID, long minimum, long maximum, String unit) {
+    public MeasurementType(Long measurementTypeID, long minimum, long maximum, String unit) {
         this.measurementTypeID = measurementTypeID;
         this.minimum = minimum;
         this.maximum = maximum;
         this.unit = unit;
     }
 
-    public Integer getMeasurementTypeID() {
+    public Long getMeasurementTypeID() {
         return measurementTypeID;
     }
 
-    public void setMeasurementTypeID(Integer measurementTypeID) {
+    public void setMeasurementTypeID(Long measurementTypeID) {
         this.measurementTypeID = measurementTypeID;
     }
 

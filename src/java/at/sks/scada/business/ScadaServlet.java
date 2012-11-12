@@ -6,12 +6,14 @@ package at.sks.scada.business;
 
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
+import at.sks.scada.dal.entities.Person;
 import at.sks.scada.dal.entities.Site;
 import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ScadaServlet", urlPatterns = {"/ScadaServlet"})
 public class ScadaServlet extends HttpServlet {
+    @EJB(beanName = "PersonDbRepo")
+    private RepositoryInterface<Person> personRepository;
     @EJB(beanName = "CustomerDbRepo")
     private RepositoryInterface<Customer> customerRepository;
     @EJB(beanName = "TechnicianDbRepo")
@@ -64,22 +68,27 @@ public class ScadaServlet extends HttpServlet {
             
             List<Customer> customersForTechnician = new ArrayList<Customer>();
             List<Site> sitesForCustomer = new ArrayList<Site>();
+            List<Measurement> siteStatisticsForCustomer = new ArrayList<Measurement>();
             CustomerService cs = new CustomerService(customerRepository);
             SiteService ss = new SiteService(siteRepo, measurementRepo);
-            TechnicianService ts = new TechnicianService(technicianRepo);
+            TechnicianService ts = new TechnicianService(technicianRepo, personRepository);
             StatisticsService statS = new StatisticsService(measurementRepo); 
 
             String technicianID = "1";
             String customerID = "1";
+            Date startDate = new Date(2012, 11, 8);
+            Date endDate = new Date(2012, 11, 15);
             try {
                 customersForTechnician = cs.getCustomers(ts.getTechnician(technicianID));
                 sitesForCustomer = ss.getSites(cs.getCustomer(customerID));
+                siteStatisticsForCustomer = statS.getCustomerStatistics(cs.getCustomer("1"), startDate, endDate);
             } catch(BusinessLayerException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
             }
             
             out.println("List of customers for technician with id: " + technicianID);
             for(Customer c : customersForTechnician) {
+                
                 out.println("<div> " + c.toString() + "</div>");
             }
             out.println("<br>");
@@ -87,6 +96,12 @@ public class ScadaServlet extends HttpServlet {
             out.println("Customer Statistic for Customer with id: " + customerID);
             for(Site s : sitesForCustomer) {
                 out.println("<div> " + s.toString() + "</div>");
+            }
+            out.println("<br>");
+            
+            out.println("Site Statistic for Customer with id: " + customerID);
+            for(Measurement m : siteStatisticsForCustomer) {
+                out.println("<div> " + m.toString() + "</div>");
             }
             
             out.println("</body>");

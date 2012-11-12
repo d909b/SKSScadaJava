@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 
 /**
  *
@@ -30,7 +29,7 @@ public class SiteService {
        this.siteRepository = siteRepo;
        this.measurementRepository = measurementRepo;
    }
-    public Measurement getLatestSiteState(Site site) throws BusinessLayerException
+    public List<Measurement> getLatestSiteState(Site site) throws BusinessLayerException
     {
         log.entering("SiteService", "getLatestSiteState");
         try {
@@ -45,7 +44,7 @@ public class SiteService {
             }
             
             /** Return first. */
-            return result.get(0);
+            return result;
         } catch (DataAccessLayerException ex) {
             log.log(Level.SEVERE, ex.getMessage(), ex);
             throw new BusinessLayerException(ex);

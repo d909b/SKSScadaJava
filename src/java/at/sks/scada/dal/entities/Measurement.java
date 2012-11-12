@@ -29,10 +29,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Measurement.findAll", query = "SELECT m FROM Measurement m"),
     @NamedQuery(name = "Measurement.findByMeasurementID", query = "SELECT m FROM Measurement m WHERE m.measurementID = :measurementID"),
     @NamedQuery(name = "Measurement.findByWert", query = "SELECT m FROM Measurement m WHERE m.wert = :wert"),
-    @NamedQuery(name = "Measurement.findByTime", query = "SELECT m FROM Measurement m WHERE m.time = :time"),
+    @NamedQuery(name = "Measurement.findByTime", query = "SELECT m FROM Measurement m WHERE m.time_ = :time"),
     @NamedQuery(name = "Measurement.findBySiteID", query = "SELECT m FROM Measurement m WHERE m.siteID = :siteID"),
-    @NamedQuery(name = "Measurement.findLatestBySiteID", query = "SELECT m FROM Measurement m WHERE m.siteID = :siteID AND m.time = (SELECT max(m2.time) FROM Measurement m2 WHERE m2.siteID = :siteID)"),
-    @NamedQuery(name = "Measurement.findByMeasurementTypeID", query = "SELECT m FROM Measurement m WHERE m.measurementTypeID = :measurementTypeID")})
+    @NamedQuery(name = "Measurement.findLatestBySiteID", query = "SELECT m FROM Measurement m WHERE m.siteID = :siteID AND m.time_ = (SELECT max(m2.time_) FROM Measurement m2 WHERE m2.siteID = :siteID)"),
+    @NamedQuery(name = "Measurement.findByMeasurementTypeID", query = "SELECT m FROM Measurement m WHERE m.measurementTypeID = :measurementTypeID"),
+    @NamedQuery(name = "Measurement.findByCustomerAndByTimerange", query = "SELECT m FROM Measurement m WHERE m.siteID IN (SELECT s.siteID FROM Site s WHERE s.customerID = :customerID) order by m.time_")})
 public class Measurement extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,7 +49,7 @@ public class Measurement extends AbstractEntity implements Serializable {
     @NotNull
     @Column(name = "Time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date time;
+    private Date time_;
     @Basic(optional = false)
     @NotNull
     @Column(name = "SiteID")
@@ -56,7 +57,7 @@ public class Measurement extends AbstractEntity implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "MeasurementTypeID")
-    private int measurementTypeID;
+    private Long measurementTypeID;
 
     public Measurement() {
     }
@@ -65,10 +66,10 @@ public class Measurement extends AbstractEntity implements Serializable {
         this.measurementID = measurementID;
     }
 
-    public Measurement(Long measurementID, float wert, Date time, long siteID, int measurementTypeID) {
+    public Measurement(Long measurementID, float wert, Date time, long siteID, Long measurementTypeID) {
         this.measurementID = measurementID;
         this.wert = wert;
-        this.time = time;
+        this.time_ = time;
         this.siteID = siteID;
         this.measurementTypeID = measurementTypeID;
     }
@@ -90,11 +91,11 @@ public class Measurement extends AbstractEntity implements Serializable {
     }
 
     public Date getTime() {
-        return time;
+        return time_;
     }
 
     public void setTime(Date time) {
-        this.time = time;
+        this.time_ = time;
     }
 
     public long getSiteID() {
@@ -105,11 +106,11 @@ public class Measurement extends AbstractEntity implements Serializable {
         this.siteID = siteID;
     }
 
-    public int getMeasurementTypeID() {
+    public Long getMeasurementTypeID() {
         return measurementTypeID;
     }
 
-    public void setMeasurementTypeID(int measurementTypeID) {
+    public void setMeasurementTypeID(Long measurementTypeID) {
         this.measurementTypeID = measurementTypeID;
     }
 

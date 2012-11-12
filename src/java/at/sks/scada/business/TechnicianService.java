@@ -5,6 +5,7 @@
 package at.sks.scada.business;
 
 import at.sks.scada.dal.DataAccessLayerException;
+import at.sks.scada.dal.entities.Person;
 import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
 import java.util.logging.Level;
@@ -19,19 +20,32 @@ public class TechnicianService {
     private static final Logger log = Logger.getLogger(CustomerService.class.getName());
     
     private RepositoryInterface<Technician> technicianRepository;
+    private RepositoryInterface<Person> personRepository;
     
     /**
      *  Constructor expects TechnicianDbRepository
      * @param techRepo
      */
-    public TechnicianService(RepositoryInterface<Technician> techRepo) {
+    public TechnicianService(RepositoryInterface<Technician> techRepo, RepositoryInterface<Person> personRepo) {
         this.technicianRepository = techRepo;
+        this.personRepository = personRepo;
     }
     
     public Technician getTechnician(String id) throws BusinessLayerException {
         log.entering("TechnicianService", "getTechnician");
         try {
-            return technicianRepository.get(id);
+            Technician technician = technicianRepository.get(id);
+            return technician;
+        } catch (DataAccessLayerException ex) {
+            log.log(Level.SEVERE, ex.getMessage(), ex);
+            throw new BusinessLayerException(ex);
+        }
+    }
+    
+    public Person getPersonForTechnician(Technician t) throws BusinessLayerException {
+        log.entering("TechnicianService", "getPersonForTechnician");
+        try {
+            return personRepository.get(String.valueOf(t.getPersonID()));
         } catch (DataAccessLayerException ex) {
             log.log(Level.SEVERE, ex.getMessage(), ex);
             throw new BusinessLayerException(ex);

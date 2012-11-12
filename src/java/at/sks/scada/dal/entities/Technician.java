@@ -40,12 +40,8 @@ public class Technician extends AbstractEntity implements Serializable {
 
     public Technician() {
     }
-
-    public Technician(Long technicianID) {
-        this.technicianID = technicianID;
-    }
-
-    public Technician(Long technicianID, long personID) {
+    
+    public Technician(Long technicianID, Long personID) {
         this.technicianID = technicianID;
         this.personID = personID;
     }
