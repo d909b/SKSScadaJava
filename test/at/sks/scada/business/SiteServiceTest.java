@@ -9,8 +9,10 @@ import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
 import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
-import java.util.Date;
+import at.sks.scada.dal.repositories.mock.MeasurementMockRepository;
+import at.sks.scada.dal.repositories.mock.SiteMockRepository;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -29,9 +31,6 @@ import org.junit.Test;
  * @author patrick
  */
 public class SiteServiceTest {
-    
-    private RepositoryInterface<Customer> customerRepository;
-    private RepositoryInterface<Technician> technicianRepo;
     private RepositoryInterface<Site> siteRepo;
     private RepositoryInterface<Measurement> measurementRepo;
     
@@ -51,6 +50,8 @@ public class SiteServiceTest {
     @Before
     public void setUp() {
         factory  = Validation.buildDefaultValidatorFactory();
+        siteRepo = new SiteMockRepository();
+        measurementRepo = new MeasurementMockRepository();
     }
     
     @After
@@ -62,29 +63,30 @@ public class SiteServiceTest {
      */
     @Test
     public void testGetLatestSiteState() throws Exception {
-         /** TODO: Implement with MockRepository... DI needs to be fixed first. */
-        System.out.println("getLatestSiteState");
         Validator validator = factory.getValidator();
         Date now = new Date();
         
-        Site site = new Site(Long.parseLong("1"), "description hsda", Float.parseFloat("123.0"), Float.parseFloat("123.0"), "123A", Long.parseLong("1"));
-        Measurement m1 = new Measurement(Long.parseLong("1"), Float.parseFloat("10"), now, Long.parseLong("1"), Long.parseLong("1"));
-        Measurement m2 = new Measurement(Long.parseLong("2"), Float.parseFloat("100"), now, Long.parseLong("1"), Long.parseLong("4"));
+        Site site = new Site(Long.parseLong("1"), "description hsda", 
+                Float.parseFloat("123.0"), Float.parseFloat("123.0"), 
+                "123A", Long.parseLong("1"));
+        
+        Measurement m1 = new Measurement(Long.parseLong("1"), Float.parseFloat("10"),
+                now, Long.parseLong("1"), Long.parseLong("1"));
+        
         List<Measurement> expResult = new ArrayList<Measurement>();
         expResult.add(m1);
-        expResult.add(m2);
+        
+        measurementRepo.add(m1);
         
         Set<ConstraintViolation<Measurement>> violationsM1 = validator.validate(m1);
-        Set<ConstraintViolation<Measurement>> violationsM2 = validator.validate(m2);
         Set<ConstraintViolation<Site>> violationsS = validator.validate(site);
         
         SiteService instance = new SiteService(siteRepo, measurementRepo);
         
-        List<Measurement> result = instance.getLatestSiteState(site);
+        Measurement result = instance.getLatestSiteState(site);
         assertEquals(0, violationsM1.size());
-        assertEquals(0, violationsM2.size());
         assertEquals(0, violationsS.size());
-        assertEquals(expResult, result);
+        assertEquals(expResult.get(0), result);
         
     }
 
@@ -93,12 +95,12 @@ public class SiteServiceTest {
      */
     @Test
     public void testGetSites() throws Exception {
-        System.out.println("getSites");
         Validator validator = factory.getValidator();
         Customer customer = new Customer(Long.parseLong("1"), Long.parseLong("1"), Long.parseLong("1"));
         Site s1 = new Site(Long.parseLong("1"), "description hsda", Float.parseFloat("123.0"), Float.parseFloat("123.0"), "123A", Long.parseLong("1"));
         List<Site> expResult = new ArrayList<Site>();
         expResult.add(s1);
+        siteRepo.add(s1);
         
         Set<ConstraintViolation<Site>> violationsS1 = validator.validate(s1);
         Set<ConstraintViolation<Customer>> violationsC = validator.validate(customer);

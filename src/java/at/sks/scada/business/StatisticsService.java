@@ -7,10 +7,10 @@ package at.sks.scada.business;
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
+import at.sks.scada.dal.entities.Site;
 import at.sks.scada.dal.repositories.RepositoryInterface;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,26 +26,34 @@ public class StatisticsService {
     private SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     private RepositoryInterface<Measurement> measurementRepository;
+    private RepositoryInterface<Site> siteRepository;
     
-    public StatisticsService(RepositoryInterface<Measurement> measurementRepo) {
+    public StatisticsService(RepositoryInterface<Measurement> measurementRepo,
+            RepositoryInterface<Site> siteRepo) {
         this.measurementRepository = measurementRepo;
+        siteRepository = siteRepo;
     }
     
-    //not working with timerange. returns all statistics for the site
-    public List<Measurement> getCustomerStatistics(Customer customer,
-            Date startDate, Date endDate) throws BusinessLayerException
+    public List<Measurement> getCustomerStatistics(Customer customer) throws BusinessLayerException
     {
-       log.entering("StatisticsService", "getCustomerStatistics");
+        log.entering("StatisticsService", "getCustomerStatistics");
         try {
             Map<String,Object> parameters = new HashMap<String, Object>();
             
             parameters.put("customerID", customer.getCustomerID());
-            //parameters.put("startTime", startDate);
-            //parameters.put("endTime", endDate);
             
-            List<Measurement> result =  measurementRepository.findByNamedQueryWithParameters("Measurement.findByCustomerAndByTimerange", parameters);
-            if(result.isEmpty()) {
-                throw new BusinessLayerException("No statistic available for customer with id " + customer.getCustomerID());
+            List<Site> sites = siteRepository.findByNamedQueryWithParameters("Site.findByCustomerID", parameters);
+            
+            List<Measurement> result = new ArrayList<Measurement>();
+            for(Site s : sites) {
+                parameters = new HashMap<String, Object>();
+            
+                parameters.put("siteID", s.getSiteID());
+            
+                List<Measurement> measurements =  measurementRepository
+                        .findByNamedQueryWithParameters("Measurement.findBySiteID", parameters);
+                
+                result.addAll(measurements);
             }
             
             return result;

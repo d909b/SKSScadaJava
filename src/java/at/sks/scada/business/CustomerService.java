@@ -11,8 +11,13 @@ import at.sks.scada.dal.repositories.RepositoryInterface;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -22,6 +27,7 @@ public class CustomerService {
     private static final Logger log = Logger.getLogger(CustomerService.class.getName());
     
     private RepositoryInterface<Customer> customerRepository;
+    private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
     
     public CustomerService(RepositoryInterface<Customer> ri) {
         this.customerRepository = ri;
@@ -30,6 +36,14 @@ public class CustomerService {
     public List<Customer> getCustomers(Technician technician) throws BusinessLayerException
     {
         log.entering("CustomerService", "getCustomers");
+        
+        Validator validator = factory.getValidator();
+        
+        Set<ConstraintViolation<Technician>> violations = validator.validate(technician);
+        
+        if(!violations.isEmpty()) {
+            throw new BusinessLayerException("Passed an illegal technician object.");
+        }
         
         try {
             Map<String,Object> parameters = new HashMap<String, Object>();

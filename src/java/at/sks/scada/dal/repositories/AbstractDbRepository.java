@@ -18,7 +18,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * @author benny
  */
 public abstract class AbstractDbRepository<T extends AbstractEntity> implements RepositoryInterface<T> {
-
     @PersistenceContext
     EntityManager em;   
     
@@ -63,8 +62,7 @@ public abstract class AbstractDbRepository<T extends AbstractEntity> implements 
     }
     
     @Override
-    public List<T> findByNamedQuery(String queryName) throws DataAccessLayerException
-    {
+    public List<T> findByNamedQuery(String queryName) throws DataAccessLayerException {
         try {
             return this.em.createNamedQuery(queryName).getResultList();
         } catch(Exception ex) {
@@ -74,8 +72,7 @@ public abstract class AbstractDbRepository<T extends AbstractEntity> implements 
     
     @Override
     public List<T> findByNamedQueryWithParameters(String queryName, 
-        Map<String, Object> parameters) throws DataAccessLayerException
-    {
+        Map<String, Object> parameters) throws DataAccessLayerException {
         try {
             Query query = this.em.createNamedQuery(queryName);
             

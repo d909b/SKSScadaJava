@@ -7,19 +7,20 @@ package at.sks.scada.business;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
+import at.sks.scada.dal.repositories.mock.CustomerMockRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
-import org.junit.After;
-import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import org.junit.After;
+import org.junit.AfterClass;
 
 /**
  *
@@ -45,6 +46,7 @@ public class CustomerServiceTest {
     @Before
     public void setUp() {
         factory  = Validation.buildDefaultValidatorFactory();
+        customerRepository = new CustomerMockRepository();
     }
     
     @After
@@ -56,15 +58,18 @@ public class CustomerServiceTest {
      */
     @Test
     public void testGetCustomers() throws Exception {
-        /** TODO: Implement with MockRepository... DI needs to be fixed first. */
-        System.out.println("getCustomers");
         Validator validator = factory.getValidator();
         
         Technician technician = new Technician(Long.valueOf("1"), Long.valueOf("3"));
         
         Customer c1 = new Customer(Long.valueOf("1"), Long.valueOf("1"), Long.valueOf("1"));
-        Customer c2 = new Customer(Long.valueOf("2"), Long.valueOf("2"), Long.valueOf("1"));
-        Customer c3 = new Customer(Long.valueOf("3"), Long.valueOf("6"), Long.valueOf("1"));
+        Customer c2 = new Customer(Long.valueOf("2"), Long.valueOf("1"), Long.valueOf("1"));
+        Customer c3 = new Customer(Long.valueOf("3"), Long.valueOf("1"), Long.valueOf("1"));
+        
+        customerRepository.add(c1);
+        customerRepository.add(c2);
+        customerRepository.add(c3);
+        
         List<Customer> expResult = new ArrayList<Customer>();
         expResult.add(c1);
         expResult.add(c2);
