@@ -8,6 +8,8 @@ import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
 import at.sks.scada.dal.repositories.RepositoryInterface;
+import at.sks.scada.dal.repositories.interfaces.MeasurementRepository;
+import at.sks.scada.dal.repositories.interfaces.SiteRepository;
 import at.sks.scada.dal.repositories.mock.MeasurementMockRepository;
 import at.sks.scada.dal.repositories.mock.SiteMockRepository;
 import java.util.ArrayList;
@@ -33,8 +35,8 @@ import static org.junit.Assert.*;
  */
 public class StatisticsServiceTest {
 
-    private RepositoryInterface<Measurement> measurementRepository;
-    private RepositoryInterface<Site> siteRepository;
+    private MeasurementRepository measurementRepository;
+    private SiteRepository siteRepository;
     
     ValidatorFactory factory;
     

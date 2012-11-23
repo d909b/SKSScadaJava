@@ -8,12 +8,15 @@ import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
+import at.sks.scada.dal.repositories.interfaces.CustomerRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -23,13 +26,19 @@ import javax.validation.ValidatorFactory;
  *
  * @author patrick
  */
+@Stateless
 public class CustomerService {
     private static final Logger log = Logger.getLogger(CustomerService.class.getName());
     
-    private RepositoryInterface<Customer> customerRepository;
+    @Inject
+    private CustomerRepository customerRepository;
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+
+    public CustomerService() {
+        
+    }
     
-    public CustomerService(RepositoryInterface<Customer> ri) {
+    public CustomerService(CustomerRepository ri) {
         this.customerRepository = ri;
     }
     

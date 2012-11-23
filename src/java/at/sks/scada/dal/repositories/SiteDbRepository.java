@@ -6,14 +6,15 @@ package at.sks.scada.dal.repositories;
 
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Site;
+import at.sks.scada.dal.repositories.interfaces.SiteRepository;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author benny
  */
-@Stateless(name="SiteDbRepo")
-public class SiteDbRepository extends AbstractDbRepository<Site> implements RepositoryInterface<Site> {
+@Stateless
+public class SiteDbRepository extends AbstractDbRepository<Site> implements SiteRepository {
     
      @Override
     public Site get(String id) throws DataAccessLayerException {

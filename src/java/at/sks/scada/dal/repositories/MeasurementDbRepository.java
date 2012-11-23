@@ -5,19 +5,16 @@
 package at.sks.scada.dal.repositories;
 
 import at.sks.scada.dal.DataAccessLayerException;
-import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import at.sks.scada.dal.repositories.interfaces.MeasurementRepository;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author benny
  */
-@Stateless(name="MeasurementDbRepo")
-public class MeasurementDbRepository extends AbstractDbRepository<Measurement> implements RepositoryInterface<Measurement> {
+@Stateless(name="MeasurementRepository")
+public class MeasurementDbRepository extends AbstractDbRepository<Measurement> implements MeasurementRepository {
     
      @Override
     public Measurement get(String id) throws DataAccessLayerException {

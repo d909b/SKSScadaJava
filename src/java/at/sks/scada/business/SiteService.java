@@ -8,13 +8,16 @@ import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
-import at.sks.scada.dal.repositories.RepositoryInterface;
+import at.sks.scada.dal.repositories.interfaces.MeasurementRepository;
+import at.sks.scada.dal.repositories.interfaces.SiteRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -24,17 +27,27 @@ import javax.validation.ValidatorFactory;
  *
  * @author patrick
  */
+@Stateless
 public class SiteService {
     private static final Logger log = Logger.getLogger(SiteService.class.getName());
      
-    private RepositoryInterface<Site> siteRepository;
-    private RepositoryInterface<Measurement> measurementRepository;
+    @Inject
+    private SiteRepository siteRepository;
+    
+    @Inject
+    private MeasurementRepository measurementRepository;
+    
     private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
-   public SiteService(RepositoryInterface<Site> siteRepo, RepositoryInterface<Measurement> measurementRepo) {
+    public SiteService() {
+        
+    }
+
+    public SiteService(SiteRepository siteRepo, MeasurementRepository measurementRepo) {
        this.siteRepository = siteRepo;
        this.measurementRepository = measurementRepo;
-   }
+    }
+    
     public Measurement getLatestSiteState(Site site) throws BusinessLayerException
     {
         log.entering("SiteService", "getLatestSiteState");

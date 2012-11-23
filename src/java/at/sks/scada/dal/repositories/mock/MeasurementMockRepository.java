@@ -6,15 +6,19 @@ package at.sks.scada.dal.repositories.mock;
 
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Measurement;
+import at.sks.scada.dal.repositories.interfaces.MeasurementRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author patrick
  */
-public class MeasurementMockRepository extends AbstractMockRepository<Measurement> {
+@Mock
+@Stateless
+public class MeasurementMockRepository extends AbstractMockRepository<Measurement> implements MeasurementRepository {
     @Override
     public List<Measurement> findByNamedQueryWithParameters(String queryName, Map<String, Object> parameters) 
             throws DataAccessLayerException {

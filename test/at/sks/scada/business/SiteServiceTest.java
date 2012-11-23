@@ -9,6 +9,8 @@ import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
 import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
+import at.sks.scada.dal.repositories.interfaces.MeasurementRepository;
+import at.sks.scada.dal.repositories.interfaces.SiteRepository;
 import at.sks.scada.dal.repositories.mock.MeasurementMockRepository;
 import at.sks.scada.dal.repositories.mock.SiteMockRepository;
 import java.util.ArrayList;
@@ -31,8 +33,8 @@ import org.junit.Test;
  * @author patrick
  */
 public class SiteServiceTest {
-    private RepositoryInterface<Site> siteRepo;
-    private RepositoryInterface<Measurement> measurementRepo;
+    private SiteRepository siteRepo;
+    private MeasurementRepository measurementRepo;
     
     ValidatorFactory factory;
     

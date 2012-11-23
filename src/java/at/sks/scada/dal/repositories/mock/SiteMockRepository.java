@@ -6,15 +6,19 @@ package at.sks.scada.dal.repositories.mock;
 
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Site;
+import at.sks.scada.dal.repositories.interfaces.SiteRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author patrick
  */
-public class SiteMockRepository extends AbstractMockRepository<Site> {
+@Mock
+@Stateless
+public class SiteMockRepository extends AbstractMockRepository<Site> implements SiteRepository {
     @Override
     public List<Site> findByNamedQuery(String queryName) throws DataAccessLayerException {
         throw new UnsupportedOperationException("Not supported yet.");

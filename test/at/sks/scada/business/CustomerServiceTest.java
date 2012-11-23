@@ -7,20 +7,21 @@ package at.sks.scada.business;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
+import at.sks.scada.dal.repositories.interfaces.CustomerRepository;
 import at.sks.scada.dal.repositories.mock.CustomerMockRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *
@@ -28,7 +29,7 @@ import org.junit.AfterClass;
  */
 public class CustomerServiceTest {
     
-    private RepositoryInterface<Customer> customerRepository;
+    private CustomerRepository customerRepository;
     
     ValidatorFactory factory;
     

@@ -9,27 +9,36 @@ import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
 import at.sks.scada.dal.repositories.RepositoryInterface;
-import java.text.SimpleDateFormat;
+import at.sks.scada.dal.repositories.interfaces.MeasurementRepository;
+import at.sks.scada.dal.repositories.interfaces.SiteRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 /**
  *
  * @author patrick
  */
+@Stateless
 public class StatisticsService {
     private static final Logger log = Logger.getLogger(StatisticsService.class.getName());
-    private SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
-    private RepositoryInterface<Measurement> measurementRepository;
-    private RepositoryInterface<Site> siteRepository;
+    @Inject
+    private MeasurementRepository measurementRepository;
     
-    public StatisticsService(RepositoryInterface<Measurement> measurementRepo,
-            RepositoryInterface<Site> siteRepo) {
+    @Inject
+    private SiteRepository siteRepository;
+
+    public StatisticsService() {
+    }
+    
+    public StatisticsService(MeasurementRepository measurementRepo,
+            SiteRepository siteRepo) {
         this.measurementRepository = measurementRepo;
         siteRepository = siteRepo;
     }

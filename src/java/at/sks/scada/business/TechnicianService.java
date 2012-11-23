@@ -8,25 +8,37 @@ import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Person;
 import at.sks.scada.dal.entities.Technician;
 import at.sks.scada.dal.repositories.RepositoryInterface;
+import at.sks.scada.dal.repositories.interfaces.PersonRepository;
+import at.sks.scada.dal.repositories.interfaces.TechnicianRepository;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
  * @author benny
  */
+@Stateless
 public class TechnicianService {
     private static final Logger log = Logger.getLogger(CustomerService.class.getName());
     
-    private RepositoryInterface<Technician> technicianRepository;
-    private RepositoryInterface<Person> personRepository;
+    @Inject
+    private TechnicianRepository technicianRepository;
+    
+    @Inject
+    private PersonRepository personRepository;
+
+    public TechnicianService() {
+        
+    }
     
     /**
      *  Constructor expects TechnicianDbRepository
      * @param techRepo
      */
-    public TechnicianService(RepositoryInterface<Technician> techRepo, RepositoryInterface<Person> personRepo) {
+    public TechnicianService(TechnicianRepository techRepo, PersonRepository personRepo) {
         this.technicianRepository = techRepo;
         this.personRepository = personRepo;
     }

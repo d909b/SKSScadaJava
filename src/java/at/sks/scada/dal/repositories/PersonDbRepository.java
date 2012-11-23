@@ -6,14 +6,15 @@ package at.sks.scada.dal.repositories;
 
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Person;
+import at.sks.scada.dal.repositories.interfaces.PersonRepository;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author benny
  */
-@Stateless(name="PersonDbRepo")
-public class PersonDbRepository extends AbstractDbRepository<Person> implements RepositoryInterface<Person> {
+@Stateless
+public class PersonDbRepository extends AbstractDbRepository<Person> implements PersonRepository {
     @Override
     public Person get(String id) throws DataAccessLayerException {
         try {
