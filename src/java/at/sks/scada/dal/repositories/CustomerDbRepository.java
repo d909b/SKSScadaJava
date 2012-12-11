@@ -13,7 +13,7 @@ import javax.ejb.Stateless;
  *
  * @author benny
  */
-@Stateless
+@Stateless(name="CustomerRepository")
 public class CustomerDbRepository extends AbstractDbRepository<Customer> implements CustomerRepository {     
     
     @Override

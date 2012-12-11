@@ -16,7 +16,7 @@ import javax.ejb.Stateless;
 @Stateless(name="MeasurementRepository")
 public class MeasurementDbRepository extends AbstractDbRepository<Measurement> implements MeasurementRepository {
     
-     @Override
+    @Override
     public Measurement get(String id) throws DataAccessLayerException {
         try {
             return em.find(Measurement.class,Integer.parseInt(id));

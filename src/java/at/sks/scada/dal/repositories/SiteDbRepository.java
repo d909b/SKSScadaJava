@@ -13,7 +13,7 @@ import javax.ejb.Stateless;
  *
  * @author benny
  */
-@Stateless
+@Stateless(name="SiteRepository")
 public class SiteDbRepository extends AbstractDbRepository<Site> implements SiteRepository {
     
      @Override
