@@ -24,6 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c"),
+    @NamedQuery(name = "Customer.findByNameAndPassword", 
+        query = "SELECT c FROM Customer c WHERE c.personID IN (SELECT p.personID FROM Person p WHERE p.username = :name AND p.password = :password)"),
     @NamedQuery(name = "Customer.findByCustomerID", query = "SELECT c FROM Customer c WHERE c.customerID = :customerID"),
     @NamedQuery(name = "Customer.findByTechnicianID", query = "SELECT c FROM Customer c WHERE c.technicianID = :technicianID"),
     @NamedQuery(name = "Customer.findByPersonID", query = "SELECT c FROM Customer c WHERE c.personID = :personID")

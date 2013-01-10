@@ -7,12 +7,13 @@ package at.sks.scada.business;
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Person;
 import at.sks.scada.dal.entities.Technician;
-import at.sks.scada.dal.repositories.RepositoryInterface;
 import at.sks.scada.dal.repositories.interfaces.PersonRepository;
 import at.sks.scada.dal.repositories.interfaces.TechnicianRepository;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 

@@ -19,7 +19,7 @@ public class CustomerDbRepository extends AbstractDbRepository<Customer> impleme
     @Override
     public Customer get(String id) throws DataAccessLayerException {
         try {
-            return em.find(Customer.class,Long.parseLong(id));
+            return em.find(Customer.class, Long.parseLong(id));
         } catch(Exception ex) {
             throw new DataAccessLayerException(ex);
         }

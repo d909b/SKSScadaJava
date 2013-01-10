@@ -95,4 +95,30 @@ public class CustomerService {
             throw new BusinessLayerException(ex);
         }
     }
+    
+    public Customer loginCustomer(String name, String password) throws BusinessLayerException, InvalidLoginException 
+    {
+        log.entering("CustomerService", "isValidCustomerLogin");
+        try {
+            Map<String,Object> parameters = new HashMap<String, Object>();
+            
+            parameters.put("name", name);
+            parameters.put("password", password);
+            
+            List<Customer> customers = customerRepository
+                    .findByNamedQueryWithParameters("Customer.findByNameAndPassword", parameters);
+            
+            if(customers.isEmpty())
+            {
+                throw new InvalidLoginException("The provided credentials were invalid.");
+            }
+            
+            return customers.get(0);
+        } catch (DataAccessLayerException ex) {
+            log.log(Level.SEVERE, ex.getMessage(), ex);
+            throw new BusinessLayerException(ex);
+        }
+    }
+    
+    
 }
