@@ -19,7 +19,7 @@ public class MeasurementDbRepository extends AbstractDbRepository<Measurement> i
     @Override
     public Measurement get(String id) throws DataAccessLayerException {
         try {
-            return em.find(Measurement.class,Integer.parseInt(id));
+            return em.find(Measurement.class,Long.parseLong(id));
         } catch(Exception ex) {
             throw new DataAccessLayerException(ex);
         }

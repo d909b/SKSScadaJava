@@ -4,6 +4,7 @@
  */
 package at.sks.scada.business;
 
+import at.sks.scada.business.interfaces.SiteServiceInterface;
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
@@ -67,7 +68,7 @@ public class SiteService {
         }
     } 
     
-    public Measurement getLatestSiteState(Site site) throws BusinessLayerException
+    public List<Measurement> getLatestSiteState(Site site) throws BusinessLayerException
     {
         log.entering("SiteService", "getLatestSiteState");
         
@@ -90,8 +91,7 @@ public class SiteService {
                 throw new BusinessLayerException("No measurements available for site with id " + site.getSiteID());
             }
             
-            /** Return first. */
-            return result.get(0);
+            return result;
         } catch (DataAccessLayerException ex) {
             log.log(Level.SEVERE, ex.getMessage(), ex);
             throw new BusinessLayerException(ex);
@@ -120,6 +120,18 @@ public class SiteService {
             return result;
         } catch (DataAccessLayerException ex) {
             log.log(Level.SEVERE, ex.getMessage(), ex);
+            throw new BusinessLayerException(ex);
+        }
+    }
+    
+    public Site getSite(String siteId) throws BusinessLayerException {
+        log.entering("SiteService", "getSites");
+        
+        try {
+            Site site = siteRepository.get(siteId);
+            return site;
+        } catch (DataAccessLayerException ex) {
+             log.log(Level.SEVERE, ex.getMessage(), ex);
             throw new BusinessLayerException(ex);
         }
     }

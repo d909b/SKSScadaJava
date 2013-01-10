@@ -19,10 +19,18 @@
                     rowClasses="order-table-odd-row,order-table-even-row"
             >
                 <h:column>
-                    <f:facet name="header">Seriennummer: </f:facet>
+                    <f:facet name="header">Seriennummer </f:facet>
                     <h:outputText value="#{site.serialnumber}"/>
                     </h:column>
+                <h:column>
+                    <f:facet name="header">Details </f:facet>
+                      <h:button value="#{site.description}" outcome="detail.xhtml">
+                          <f:param name="siteId" value="#{site.siteID}"/>
+                      </h:button>
+                </h:column>
             </h:dataTable>
+        <br/>
+        <h:button value="Ausloggen" outcome="login.xhtml"/>
     </h:body>
 </html>
 

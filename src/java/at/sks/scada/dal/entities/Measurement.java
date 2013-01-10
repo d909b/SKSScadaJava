@@ -31,9 +31,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Measurement.findByWert", query = "SELECT m FROM Measurement m WHERE m.wert = :wert"),
     @NamedQuery(name = "Measurement.findByTime", query = "SELECT m FROM Measurement m WHERE m.time_ = :time"),
     @NamedQuery(name = "Measurement.findBySiteID", query = "SELECT m FROM Measurement m WHERE m.siteID = :siteID"),
-    @NamedQuery(name = "Measurement.findLatestBySiteID", query = "SELECT m FROM Measurement m WHERE m.siteID = :siteID AND m.time_ = (SELECT max(m2.time_) FROM Measurement m2 WHERE m2.siteID = :siteID)"),
+    @NamedQuery(name = "Measurement.findLatestBySiteID", query = "SELECT m FROM Measurement m WHERE m.siteID = :siteID AND m.time_ in (SELECT max(m2.time_) FROM Measurement m2 WHERE m2.siteID = :siteID GROUP BY m2.measurementTypeID)"),
     @NamedQuery(name = "Measurement.findByMeasurementTypeID", query = "SELECT m FROM Measurement m WHERE m.measurementTypeID = :measurementTypeID"),
-    @NamedQuery(name = "Measurement.findByCustomerAndByTimerange", query = "SELECT m FROM Measurement m WHERE m.siteID IN (SELECT s.siteID FROM Site s WHERE s.customerID = :customerID) order by m.time_")})
+    @NamedQuery(name = "Measurement.findByCustomerAndByTimerange", query = "SELECT m FROM Measurement m WHERE m.siteID IN (SELECT s.siteID FROM Site s WHERE s.customerID = :customerID) order by m.time_"),
+    @NamedQuery(name = "Measurement.findAverageByDay", query = "select avg(m.wert) from Measurement m where m.siteID = :siteID and m.measurementTypeID = :measurementTypeID and FUNC('DATE', m.time_) = FUNC('DATE', FUNC('NOW'))"),
+    @NamedQuery(name = "Measurement.findAverageByMonth", query =  "select avg(m.wert) from Measurement m where m.siteID = :siteID and m.measurementTypeID = :measurementTypeID and FUNC('MONTH', m.time_) = FUNC('MONTH', FUNC('NOW'))"),
+    @NamedQuery(name = "Measurement.findAverageByYear", query =  "select avg(m.wert) from Measurement m where m.siteID = :siteID and m.measurementTypeID = :measurementTypeID and FUNC('YEAR', m.time_) = FUNC('YEAR', FUNC('NOW'))")})
 public class Measurement extends AbstractEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

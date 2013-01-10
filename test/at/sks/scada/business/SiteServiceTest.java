@@ -85,10 +85,10 @@ public class SiteServiceTest {
         
         SiteService instance = new SiteService(siteRepo, measurementRepo);
         
-        Measurement result = instance.getLatestSiteState(site);
+        List<Measurement> result = instance.getLatestSiteState(site);
         assertEquals(0, violationsM1.size());
         assertEquals(0, violationsS.size());
-        assertEquals(expResult.get(0), result);
+        assertEquals(expResult.get(0), result.get(0));
         
     }
 

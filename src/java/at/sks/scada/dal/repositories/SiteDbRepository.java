@@ -19,7 +19,7 @@ public class SiteDbRepository extends AbstractDbRepository<Site> implements Site
      @Override
     public Site get(String id) throws DataAccessLayerException {
         try {
-            return em.find(Site.class,Integer.parseInt(id));
+            return em.find(Site.class,Long.parseLong(id));
         } catch(Exception ex) {
             throw new DataAccessLayerException(ex);
         }

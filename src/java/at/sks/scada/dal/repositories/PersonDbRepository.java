@@ -18,7 +18,7 @@ public class PersonDbRepository extends AbstractDbRepository<Person> implements 
     @Override
     public Person get(String id) throws DataAccessLayerException {
         try {
-            return em.find(Person.class,Integer.parseInt(id));
+            return em.find(Person.class,Long.parseLong(id));
         } catch(Exception ex) {
             throw new DataAccessLayerException(ex);
         }

@@ -4,11 +4,11 @@
  */
 package at.sks.scada.business;
 
+import at.sks.scada.business.interfaces.StatisticsServiceInterface;
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
-import at.sks.scada.dal.repositories.RepositoryInterface;
 import at.sks.scada.dal.repositories.interfaces.MeasurementRepository;
 import at.sks.scada.dal.repositories.interfaces.SiteRepository;
 import java.util.ArrayList;

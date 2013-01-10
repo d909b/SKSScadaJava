@@ -73,3 +73,14 @@ Description, CustomerID) VALUES (3, "3", 40.0123, 40.1444, "Wasser Boiler",
 
 INSERT INTO Site (SiteID, Serialnumber, Longitude, Latitude,
 Description, CustomerID) VALUES (4, "4", 40.0221, 41.2214, "Strom Site", 3);
+
+
+
+-- INSERTS INTO MEASUREMENT TABLE FOR SOME DATA
+INSERT INTO sksdb.measurement (`MeasurementID`, `MeasurementTypeID`, `SiteID`, `Time`, `Wert`) VALUES (1, 1, 1, '2012-11-12 18:50:24.0', 10.0);
+INSERT INTO sksdb.measurement (`MeasurementID`, `MeasurementTypeID`, `SiteID`, `Time`, `Wert`) VALUES (2, 4, 1, '2012-11-12 18:51:09.0', 100.0);
+INSERT INTO sksdb.measurement (`MeasurementID`, `MeasurementTypeID`, `SiteID`, `Time`, `Wert`) VALUES (3, 2, 2, '2013-01-10 16:59:03.0', 4.0);
+INSERT INTO sksdb.measurement (`MeasurementID`, `MeasurementTypeID`, `SiteID`, `Time`, `Wert`) VALUES (4, 1, 1, '2013-01-10 16:59:53.0', 11.0);
+INSERT INTO sksdb.measurement (`MeasurementID`, `MeasurementTypeID`, `SiteID`, `Time`, `Wert`) VALUES (5, 2, 3, '2013-01-10 18:02:56.0', 232.7);
+INSERT INTO sksdb.measurement (`MeasurementID`, `MeasurementTypeID`, `SiteID`, `Time`, `Wert`) VALUES (6, 1, 1, '2013-01-10 19:08:48.0', 50.3);
+INSERT INTO sksdb.measurement (`MeasurementID`, `MeasurementTypeID`, `SiteID`, `Time`, `Wert`) VALUES (7, 1, 1, '2013-02-10 19:25:55.0', 1000.0);

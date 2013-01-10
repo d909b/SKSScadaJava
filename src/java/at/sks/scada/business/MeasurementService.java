@@ -4,10 +4,13 @@
  */
 package at.sks.scada.business;
 
+import at.sks.scada.business.interfaces.MeasurementServiceInterface;
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.repositories.interfaces.MeasurementRepository;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -20,7 +23,7 @@ import javax.validation.ValidatorFactory;
  * @author patrick
  */
 @Stateless
-public class MeasurementService {
+public class MeasurementService{
     private static final Logger log = Logger.getLogger(CustomerService.class.getName());
     
     @EJB(beanName="MeasurementRepository")    
@@ -56,5 +59,26 @@ public class MeasurementService {
             Logger.getLogger(MeasurementService.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             throw new BusinessLayerException(ex);
         }
+    }
+    
+    public String getAverageMeasurement(Measurement m, String interval) throws BusinessLayerException{
+        log.entering("MeasurementService", "averageMeasurementByDay");
+        Map<String,Object> parameters = new HashMap<String, Object>();
+        parameters.put("siteID", m.getSiteID());
+        parameters.put("measurementTypeID", m.getMeasurementTypeID());
+        
+        try {
+            if(interval.equals("day")) {
+                return measurementRepository.findByNamedQueryWithParameters("Measurement.findAverageByDay", parameters).toString();
+            } else if(interval.equals("month")) {
+                return measurementRepository.findByNamedQueryWithParameters("Measurement.findAverageByMonth", parameters).toString();
+            } else if(interval.equals("year")) {
+                return measurementRepository.findByNamedQueryWithParameters("Measurement.findAverageByYear", parameters).toString();
+            }
+        } catch (DataAccessLayerException ex) {
+            Logger.getLogger(MeasurementService.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            throw new BusinessLayerException(ex);
+        }
+        return null;
     }
 }

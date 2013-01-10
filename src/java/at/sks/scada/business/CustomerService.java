@@ -4,6 +4,7 @@
  */
 package at.sks.scada.business;
 
+import at.sks.scada.business.interfaces.CustomerServiceInterface;
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Technician;
@@ -26,7 +27,7 @@ import javax.validation.ValidatorFactory;
  * @author patrick
  */
 @Stateless
-public class CustomerService {
+public class CustomerService{
     private static final Logger log = Logger.getLogger(CustomerService.class.getName());
     
     @EJB(beanName="CustomerRepository")  
@@ -119,6 +120,4 @@ public class CustomerService {
             throw new BusinessLayerException(ex);
         }
     }
-    
-    
 }
