@@ -6,7 +6,7 @@ package at.sks.scada.dal.repositories.mock;
 
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.AbstractEntity;
-import at.sks.scada.dal.repositories.RepositoryInterface;
+import at.sks.scada.dal.repositories.interfaces.RepositoryInterface;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +31,6 @@ public class AbstractMockRepository<T extends AbstractEntity> implements Reposit
     @Override
     public void delete(T obj) throws DataAccessLayerException {
         table.remove(obj);
-    }
-
-    @Override
-    public void commitChanges() throws DataAccessLayerException {
-        /** NOP */
     }
 
     @Override

@@ -5,7 +5,6 @@
 package at.sks.scada.dal.repositories.interfaces;
 
 import at.sks.scada.dal.entities.Customer;
-import at.sks.scada.dal.repositories.RepositoryInterface;
 
 /**
  * NOTE: Those interfaces are necessary because generics cannot be injected.

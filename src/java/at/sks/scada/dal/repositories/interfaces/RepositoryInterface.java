@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package at.sks.scada.dal.repositories;
+package at.sks.scada.dal.repositories.interfaces;
 
 import at.sks.scada.dal.DataAccessLayerException;
 import java.util.List;
@@ -16,7 +16,6 @@ public interface RepositoryInterface<T> {
     public void add(T obj) throws DataAccessLayerException;
     public void update(T obj) throws DataAccessLayerException;
     public void delete(T obj) throws DataAccessLayerException;
-    public void commitChanges() throws DataAccessLayerException;
     public List<T> findByNamedQuery(String queryName) throws DataAccessLayerException;
     public List<T> findByNamedQueryWithParameters(String queryName, 
         Map<String, Object> parameters) throws DataAccessLayerException;

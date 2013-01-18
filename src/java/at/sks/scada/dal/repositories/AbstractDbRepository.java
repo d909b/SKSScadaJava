@@ -4,6 +4,7 @@
  */
 package at.sks.scada.dal.repositories;
 
+import at.sks.scada.dal.repositories.interfaces.RepositoryInterface;
 import at.sks.scada.dal.DataAccessLayerException;
 import at.sks.scada.dal.entities.AbstractEntity;
 import java.util.List;
@@ -45,15 +46,6 @@ public abstract class AbstractDbRepository<T extends AbstractEntity> implements 
         } catch(Exception ex) {
             throw new DataAccessLayerException(ex);
         }
-    }
-
-    @Override
-    public void commitChanges() throws DataAccessLayerException {
-        try {
-            em.flush();
-        } catch(Exception ex) {
-            throw new DataAccessLayerException(ex);
-        }  
     }
     
     @Override

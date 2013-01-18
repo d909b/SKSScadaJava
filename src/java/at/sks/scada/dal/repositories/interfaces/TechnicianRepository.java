@@ -5,7 +5,6 @@
 package at.sks.scada.dal.repositories.interfaces;
 
 import at.sks.scada.dal.entities.Technician;
-import at.sks.scada.dal.repositories.RepositoryInterface;
 
 /**
  *

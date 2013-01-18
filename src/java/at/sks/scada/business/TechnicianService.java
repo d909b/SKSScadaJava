@@ -63,8 +63,4 @@ public class TechnicianService{
             throw new BusinessLayerException(ex);
         }
     }
-    
-    public String getTechnicianLastName(Technician technician) throws BusinessLayerException {
-        throw new NotImplementedException();
-    }
 }

@@ -5,7 +5,6 @@
 package at.sks.scada.dal.repositories.interfaces;
 
 import at.sks.scada.dal.entities.Measurement;
-import at.sks.scada.dal.repositories.RepositoryInterface;
 
 /**
  *

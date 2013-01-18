@@ -12,7 +12,7 @@ import at.sks.scada.business.SiteService;
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
-import at.sks.scada.presentation.objects.MeasurementObject;
+import at.sks.scada.business.objects.MeasurementObject;
 import com.sun.faces.context.flash.ELFlash;
 import java.io.Serializable;
 import java.util.ArrayList;

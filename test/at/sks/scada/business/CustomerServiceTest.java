@@ -6,7 +6,7 @@ package at.sks.scada.business;
 
 import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Technician;
-import at.sks.scada.dal.repositories.RepositoryInterface;
+import at.sks.scada.dal.repositories.interfaces.RepositoryInterface;
 import at.sks.scada.dal.repositories.interfaces.CustomerRepository;
 import at.sks.scada.dal.repositories.mock.CustomerMockRepository;
 import java.util.ArrayList;

@@ -8,7 +8,7 @@ import at.sks.scada.dal.entities.Customer;
 import at.sks.scada.dal.entities.Measurement;
 import at.sks.scada.dal.entities.Site;
 import at.sks.scada.dal.entities.Technician;
-import at.sks.scada.dal.repositories.RepositoryInterface;
+import at.sks.scada.dal.repositories.interfaces.RepositoryInterface;
 import at.sks.scada.dal.repositories.interfaces.MeasurementRepository;
 import at.sks.scada.dal.repositories.interfaces.SiteRepository;
 import at.sks.scada.dal.repositories.mock.MeasurementMockRepository;
